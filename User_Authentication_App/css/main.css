@@ -1,5 +1,6 @@
 body{
-    background-color: #EEE;
+    /*background-color: #EEE;*/
+    background-color: red;
 }
 
 #container{
@@ -48,7 +49,8 @@ tr:nth-child(even){
 
 th{
     background-color: #2ca089;
-    color: white;
+    /*color: white;*/
+    color: rgb(18, 15, 15);
 }
 
 .btn{
@@ -57,4 +59,11 @@ th{
 
 nav{
     display: flex;
+    background-color:  #2ca089;
 }
+
+/*thead{
+    color: black;
+    font-size: medium;
+    font-family: 'Times New Roman', Times, serif;
+}*/

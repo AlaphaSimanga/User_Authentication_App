@@ -1,41 +1,34 @@
 <?php
-//session_start();
-//include('include/config.php');
-
 use PHPMailer\PHPMailer\PHPMailer;
 //use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-require 'PHPMailer-master/src/Exception.php';
-require 'PHPMailer-master/src/PHPMailer.php';
-require 'PHPMailer-master/src/SMT.php';
+//require 'PHPMailer-master/src/Exception.php';
+require 'PHPMailer-master/PHPMailer-master/src/Exception.php';
+require 'PHPMailer-master/PHPMailer-master/src/PHPMailer.php';
+/*require 'PHPMailer-master/src/SMTP.php';*/
 
 //require 'vendor/autoload.php';
 
 function  send_mail($recipient, $subject,$message){
 //$get_firstname, 
 
-$mail = new PHPMailer();
-$mail->IsSMTP();
+    $mail = new PHPMailer();
+    $mail->IsSMTP(true);
 
 	$mail->SMTPDebug = 0;															
-	$mail->SMTPAuth = TRUE;	
-
-    $mail->Host	 = 'smtp.gmail.com;';	
-	$mail->Username = 'simangaalapha@gmail.com';				
-	$mail->Password = " ";
-
-	$mail->SMTPSecure = 'tls';							
-	$mail->Port	 = 587;
-
-		
-	//$mail->addAddress($get_email);
-	//$mail->addAddress('receiver2@gfg.com', 'Name'); , $get_firstname
+	$mail->SMTPAuth = TRUE;
+    $mail->SMTPSecure = "tls";
+    $mail->Port	 = 587;
+    $mail->Host	 = "smtp.gmail.com";	
+	$mail->Username = "simangaalapha@gmail.com";				
+	$mail->Password = "gfbsagreraf";
 	
-	$mail->isHTML(true);
-    $mail->addAddress($recipient, 'esteemed customer');
-    $mail->setFrom('simangaalapha@gmail.com', "My website");	
-
+	//$mail->addAddress($get_email);
+	//$mail->addAddress('receiver2@gfg.com', 'Name'); , $get_firstname simangaalapha@gmail.com', "My website
+	
+	$mail->IsHTML(true);
+    $mail->AddAddress($recipient, "recipient-name");
+    $mail->SetFrom("simangaalapha@gmail.com", "Alapha");	
     $mail->Subject = $subject;
     $content = $message;
 
@@ -169,6 +162,6 @@ if(isset($_POST['password_update'])){
         header("Location: password_change.php");
         exit(0);
     }
-}
+}*/
 
-?>*/
+?>

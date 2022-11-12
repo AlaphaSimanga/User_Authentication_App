@@ -1,0 +1,8 @@
+body {
+    background-image: url('../images/Librarybuilding.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    width: 100%;
+    background-position: center center;
+}

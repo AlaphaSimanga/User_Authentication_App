@@ -1,12 +1,7 @@
 <?php
-//include auth_session.php file on all user panel pages
-//require('db.php');
-//include("authentication_session.php");
-//include("include/config.php");
+session_start();
+require 'config.php';
 
-//if (isset($_SESSION['user_id']) == false){
-    //header("Location: login.php");
-//}
 ?>
 
 <!DOCTYPE html>
@@ -15,133 +10,93 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Library Database</title>
+    <title>All Books</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/main.css">
+
+    <!--<link rel="stylesheet" href="css/main.css">-->
 </head>
 <body>
+  
+<div>
+    <a href="index.php" class="btn btn-primary float-end">Logout</a>
+</div>
 
-<nav>
-    <a href="login.php">Logout</a>
-</nav>
+<div class="container mt-4">
 
-<div id="container">
-<h2>Library</h2>
+    <div class="row">
+        <div class="col-md-7">
+            <form action="searched_books.php" method="GET">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="search" value="<?php if (isset($_GET['search'])){echo $_GET['search']; }?>" placeholder="Search data">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-<div class="row">
-    <div class="col-md-7">
-        <form action="search_box.php" method="GET">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" name="search" value="<?php if (isset($_GET['search'])){echo $_GET['search']; }?>" placeholder="Search data">
-                <button type="submit" class="btn btn-primary">Search</button>
+    <?php include("message.php"); ?>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Book Details
+                        <a href="create-book.php" class="btn btn-success float-end">Add Book</a>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Book ID</th>
+                                <th>Book Name</th>
+                                <th>Book Year</th>
+                                <th>Genre</th>
+                                <th>Age Group</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                               $query = "SELECT * FROM books";
+                               $query_run = mysqli_query($connection, $query);
+                              
+                                if(mysqli_num_rows($query_run) > 0)
+                                {
+                                    foreach($query_run as $book)
+                                    {
+                                        ?>
+                                        <tr>
+                                            <td><?= $book['id']; ?></td>
+                                            <td><?= $book['BookName']; ?></td>
+                                            <td><?= $book['BookYear']; ?></td>
+                                            <td><?= $book['Genre']; ?></td>
+                                            <td><?= $book['AgeGroup']; ?></td>
+                                            <td>
+                                                <a href = "edit-book.php?id=<?=$book['id']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                                <form action="code.php" method="POST" class="d-inline">
+                                                    <button type="submit" name="delete_book" value="<?=$book['id'];?>" class="btn btn-danger btn-sm">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <?php
+
+                                    }
+
+                                }else{
+                                    echo "<h5>No Record Found</h5>";
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
 
-</div>
-</div>
-
-<div id="content">
-
-<?php
-
-require_once('include/config.php'); #calling the config file & passing the path as a parameter
-
-$sql = "SELECT bookID, BookName, BookYear, Genre, AgeGroup  FROM books";
-$response = @mysqli_query($connection,$sql);
-
-if($response){
-    echo '<table>
-    
-    <tr>
-
-    <th>Book ID</th>
-    <th>Book Name</th>
-    <th>Book Year</th>
-    <th>Genre</th>
-    <th>Age Group</th>
-    <th colspan="2">Action</th>
-  
-    </tr>';
-
-    while($row = mysqli_fetch_array($response)){
-        echo '
-        <tr>
-         <td>'.$row['bookID'].'</td>
-         <td>'.$row['BookName'].'</td>
-         <td>'.$row['BookYear'].'</td>
-         <td>'.$row['Genre'].'</td>
-         <td>'.$row['AgeGroup'].'</td>
-         <td>'.$row['id'].'</td>
-
-        
-         <td>
-			<button class="edit_btn" >Edit
-		 </td>
-		 <td>
-			<button class="del_btn">Delete</button>
-		 </td>
-        
-        </tr>';  
-    }
-}
-else{
-    echo "Could not get a response from database".mysqli_error($connection);
-}
-mysqli_close($connection);
-
-?>
-
-</div>
-    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<?php
-/*if (isset($_GET['edit'])) {
-		$id = $_GET['edit'];
-		$update = true;
-		$record = mysqli_query($connection, "SELECT * FROM Books WHERE id=$id");
-
-		if (count($record) == 1 ) {
-			$n = mysqli_fetch_array($record);
-			$BookName = $n['BookName'];
-	        $BookYear = $n['BookYear'];
-            $Genre = $n['Genre'];
-            $AgeGroup = $n['AgeGroup'];
-		}
-	}*/?>
